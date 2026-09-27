@@ -1,33 +1,332 @@
-{
-  "id": 1,
-  "gender": "female",
-  "name": {
-    "title": "Mrs",
-    "first": "Emma",
-    "last": "Lampi"
-  },
-  "location": {
-    "street": {
-      "number": 2304,
-      "name": "Siilitie"
+[
+  {
+    "id": 1,
+    "gender": "female",
+    "name": {
+      "title": "Mrs",
+      "first": "Emma",
+      "last": "Lampi"
     },
-    "city": "Hausjärvi",
-    "state": "Uusimaa",
-    "country": "Finland",
-    "postcode": 98555,
-    "timezone": {
-      "offset": "+8:00",
-      "description": "Beijing, Perth, Singapore, Hong Kong"
-    }
+    "location": {
+      "street": {
+        "number": 2304,
+        "name": "Siilitie"
+      },
+      "city": "Hausjärvi",
+      "state": "Uusimaa",
+      "country": "Finland",
+      "postcode": 98555,
+      "timezone": {
+        "offset": "+8:00",
+        "description": "Beijing, Perth, Singapore, Hong Kong"
+      }
+    },
+    "email": "emma.lampi@example.com",
+    "dob": {
+      "date": "2001-03-08T01:39:19.084Z",
+      "age": 25
+    },
+    "phone": "02-689-410",
+    "cell": "043-730-12-94",
+    "picture": "/users/emma.jpeg",
+    "hobbies": ["Travel", "Photography", "Hiking", "Reading"],
+    "details": "I enjoy travelling, photography and discovering new places."
   },
-  "email": "emma.lampi@example.com",
-  "dob": {
-    "date": "2001-03-08T01:39:19.084Z",
-    "age": 25
+  {
+    "id": 2,
+    "gender": "male",
+    "name": {
+      "title": "Mr",
+      "first": "Liam",
+      "last": "Wilson"
+    },
+    "location": {
+      "street": {
+        "number": 18,
+        "name": "King Street"
+      },
+      "city": "London",
+      "state": "England",
+      "country": "United Kingdom",
+      "postcode": 10001,
+      "timezone": {
+        "offset": "+0:00",
+        "description": "London"
+      }
+    },
+    "email": "liam.wilson@example.com",
+    "dob": {
+      "date": "1994-05-14T00:00:00.000Z",
+      "age": 32
+    },
+    "phone": "020-555-0102",
+    "cell": "07123-456-102",
+    "picture": "/users/liam.jpg",
+    "hobbies": ["Football", "Running", "Music"],
+    "details": "Liam enjoys sports, music and travelling."
   },
-  "phone": "02-689-410",
-  "cell": "043-730-12-94",
-  "picture": "/users/emma.jpeg",
-  "hobbies": ["Travel", "Photography", "Hiking", "Reading", "Cooking", "Music"],
-  "details": "I enjoy travelling, photography and discovering new places. In my free time I like reading, hiking and listening to music."
-}
+  {
+    "id": 3,
+    "gender": "female",
+    "name": {
+      "title": "Ms",
+      "first": "Olivia",
+      "last": "Martin"
+    },
+    "location": {
+      "street": {
+        "number": 77,
+        "name": "Rue Victor Hugo"
+      },
+      "city": "Lyon",
+      "state": "Auvergne-Rhône-Alpes",
+      "country": "France",
+      "postcode": 69002,
+      "timezone": {
+        "offset": "+1:00",
+        "description": "Paris"
+      }
+    },
+    "email": "olivia.martin@example.com",
+    "dob": {
+      "date": "2005-11-21T00:00:00.000Z",
+      "age": 20
+    },
+    "phone": "04-55-20-10",
+    "cell": "06-44-22-11",
+    "picture": "/users/olivia.jpg",
+    "hobbies": ["Fashion", "Drawing", "Cinema"],
+    "details": "Olivia likes drawing, fashion and cinema."
+  },
+  {
+    "id": 4,
+    "gender": "male",
+    "name": {
+      "title": "Mr",
+      "first": "Noah",
+      "last": "Schmidt"
+    },
+    "location": {
+      "street": {
+        "number": 41,
+        "name": "Hauptstraße"
+      },
+      "city": "Berlin",
+      "state": "Berlin",
+      "country": "Germany",
+      "postcode": 10115,
+      "timezone": {
+        "offset": "+1:00",
+        "description": "Berlin"
+      }
+    },
+    "email": "noah.schmidt@example.com",
+    "dob": {
+      "date": "2009-04-05T00:00:00.000Z",
+      "age": 17
+    },
+    "phone": "030-555-0104",
+    "cell": "0176-555-0104",
+    "picture": "/users/noah.jpg",
+    "hobbies": ["Gaming", "Cycling", "Football"],
+    "details": "Noah enjoys gaming and outdoor activities."
+  },
+  {
+    "id": 5,
+    "gender": "female",
+    "name": {
+      "title": "Ms",
+      "first": "Sophia",
+      "last": "Rossi"
+    },
+    "location": {
+      "street": {
+        "number": 12,
+        "name": "Via Roma"
+      },
+      "city": "Milan",
+      "state": "Lombardy",
+      "country": "Italy",
+      "postcode": 20121,
+      "timezone": {
+        "offset": "+1:00",
+        "description": "Rome"
+      }
+    },
+    "email": "sophia.rossi@example.com",
+    "dob": {
+      "date": "1984-09-12T00:00:00.000Z",
+      "age": 42
+    },
+    "phone": "02-555-0105",
+    "cell": "333-555-0105",
+    "picture": "/users/sophia.jpg",
+    "hobbies": ["Cooking", "Travel", "Reading"],
+    "details": "Sophia enjoys cooking, books and travelling."
+  },
+  {
+    "id": 6,
+    "gender": "male",
+    "name": {
+      "title": "Mr",
+      "first": "Ethan",
+      "last": "Brown"
+    },
+    "location": {
+      "street": {
+        "number": 125,
+        "name": "Queen Street"
+      },
+      "city": "Toronto",
+      "state": "Ontario",
+      "country": "Canada",
+      "postcode": 10101,
+      "timezone": {
+        "offset": "-5:00",
+        "description": "Toronto"
+      }
+    },
+    "email": "ethan.brown@example.com",
+    "dob": {
+      "date": "1970-01-30T00:00:00.000Z",
+      "age": 56
+    },
+    "phone": "416-555-0106",
+    "cell": "647-555-0106",
+    "picture": "/users/ethan.jpg",
+    "hobbies": ["Fishing", "Reading", "Chess"],
+    "details": "Ethan enjoys fishing, chess and history books."
+  },
+  {
+    "id": 7,
+    "gender": "female",
+    "name": {
+      "title": "Ms",
+      "first": "Ava",
+      "last": "Johnson"
+    },
+    "location": {
+      "street": {
+        "number": 83,
+        "name": "Broadway"
+      },
+      "city": "New York",
+      "state": "New York",
+      "country": "USA",
+      "postcode": 10012,
+      "timezone": {
+        "offset": "-5:00",
+        "description": "New York"
+      }
+    },
+    "email": "ava.johnson@example.com",
+    "dob": {
+      "date": "1997-07-19T00:00:00.000Z",
+      "age": 29
+    },
+    "phone": "212-555-0107",
+    "cell": "917-555-0107",
+    "picture": "/users/ava.jpg",
+    "hobbies": ["Yoga", "Photography", "Music"],
+    "details": "Ava is interested in photography, yoga and music."
+  },
+  {
+    "id": 8,
+    "gender": "male",
+    "name": {
+      "title": "Mr",
+      "first": "Lucas",
+      "last": "Andersen"
+    },
+    "location": {
+      "street": {
+        "number": 8,
+        "name": "Nørregade"
+      },
+      "city": "Copenhagen",
+      "state": "Capital Region",
+      "country": "Denmark",
+      "postcode": 1165,
+      "timezone": {
+        "offset": "+1:00",
+        "description": "Copenhagen"
+      }
+    },
+    "email": "lucas.andersen@example.com",
+    "dob": {
+      "date": "1988-02-10T00:00:00.000Z",
+      "age": 38
+    },
+    "phone": "33-55-01-08",
+    "cell": "20-55-01-08",
+    "picture": "/users/lucas.jpg",
+    "hobbies": ["Running", "Technology", "Travel"],
+    "details": "Lucas likes technology, running and travelling."
+  },
+  {
+    "id": 9,
+    "gender": "female",
+    "name": {
+      "title": "Ms",
+      "first": "Anna",
+      "last": "Dwellgood"
+    },
+    "location": {
+      "street": {
+        "number": 86,
+        "name": "Bedford street"
+      },
+      "city": "New York",
+      "state": "State of New York",
+      "country": "USA",
+      "postcode": 10001,
+      "timezone": {
+        "offset": "-7:00",
+        "description": "New York"
+      }
+    },
+    "email": "anna.dwellgood@example.com",
+    "dob": {
+      "date": "2006-12-01T00:00:00.000Z",
+      "age": 19
+    },
+    "phone": "22-555-0109",
+    "cell": "500-555-109",
+    "picture": "/users/anna.jpeg",
+    "hobbies": ["Travel", "Books", "Cooking"],
+    "details": "Anna enjoys travelling, books and cooking."
+  },
+  {
+    "id": 10,
+    "gender": "male",
+    "name": {
+      "title": "Mr",
+      "first": "Henry",
+      "last": "Taylor"
+    },
+    "location": {
+      "street": {
+        "number": 90,
+        "name": "George Street"
+      },
+      "city": "Sydney",
+      "state": "New South Wales",
+      "country": "Australia",
+      "postcode": 2000,
+      "timezone": {
+        "offset": "+10:00",
+        "description": "Sydney"
+      }
+    },
+    "email": "henry.taylor@example.com",
+    "dob": {
+      "date": "1962-06-18T00:00:00.000Z",
+      "age": 64
+    },
+    "phone": "02-5550-0110",
+    "cell": "0412-555-110",
+    "picture": "/users/henry.jpg",
+    "hobbies": ["Golf", "Travel", "Music"],
+    "details": "Henry enjoys golf, travelling and classical music."
+  }
+]
