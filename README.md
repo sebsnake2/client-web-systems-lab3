@@ -1,48 +1,104 @@
-# .
+# Client Web Systems — Laboratory Work 3
 
-This template should help get you started developing with Vue 3 in Vite.
+## Vue User List
 
-## Recommended IDE Setup
+A Vue 3 application developed with TypeScript using the Composition API and Single File Components.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+The project demonstrates Vue components, directives, reactive state, filtering, sorting and dynamic rendering.
 
-## Recommended Browser Setup
+## Technologies
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+- Vue 3
+- TypeScript
+- Vite
+- Composition API
+- Single File Components
+- ESLint
+- Oxlint
 
-## Type Support for `.vue` Imports in TS
+## Features
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- User profile component
+- List of 10 users
+- Local user images
+- Dynamic rendering with `v-for`
+- Conditional rendering with `v-if`
+- Details visibility with `v-show`
+- Dynamic class binding with `v-bind`
+- Gender filtering
+- Age 18+ filtering
+- Sorting by name
+- Sorting by age
+- Combined filtering and sorting
+- Reset filters and sorting
+- Empty list state
+- Hobbies rendering
+- Responsive user cards
 
-## Customize configuration
+## Age-based Styling
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+User cards receive a dynamic class depending on age:
 
-## Project Setup
+- under 18 — `minor`
+- 18–30 — `young`
+- 31–50 — `adult`
+- over 50 — `senior`
 
-```sh
+## Project Structure
+
+```text
+src/
+├── components/
+│   └── Users.vue
+├── data/
+│   └── user.json
+├── assets/
+│   └── main.css
+├── App.vue
+└── main.ts
+
+public/
+├── users/
+│   └── user images
+└── tutorial/
+    ├── step-1.png
+    ├── ...
+    └── step-15.png
+```
+
+Vue Tutorial
+All 15 steps of the official Vue tutorial were completed.
+Screenshots of the completed tasks are stored in:
+public/tutorial/
+
+Project Setup
+Install dependencies:
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+Run the development server:
 npm run dev
-```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
+Run linting:
 npm run lint
-```
+
+Create a production build:
+npm run build
+
+Main Vue Concepts Used
+The application demonstrates:
+
+- ref
+- computed
+- v-bind
+- v-on
+- v-model
+- v-if
+- v-else
+- v-show
+- v-for
+- components
+- props
+- emits
+- slots
+- lifecycle hooks
+- watchers
