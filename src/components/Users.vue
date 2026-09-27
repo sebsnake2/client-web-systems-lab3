@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import userData from "../data/user.json";
+import usersData from "../data/user.json";
 
 defineOptions({
   name: "UsersList",
@@ -40,13 +40,54 @@ interface User {
   details: string;
 }
 
-const user: User = userData;
+type GenderFilter = "all" | "male" | "female";
+type AgeFilter = "all" | "adult";
+type SortType = "default" | "name-asc" | "name-desc" | "age-asc" | "age-desc";
 
-const showDetails = ref(true);
+const users: User[] = usersData;
 
-const ageClass = computed(() => {
-  const age = user.dob.age;
+const genderFilter = ref<GenderFilter>("all");
+const ageFilter = ref<AgeFilter>("all");
+const sortType = ref<SortType>("default");
 
+const visibleDetails = ref<number[]>([]);
+
+const filteredUsers = computed(() => {
+  let result = [...users];
+
+  if (genderFilter.value !== "all") {
+    result = result.filter((user) => user.gender === genderFilter.value);
+  }
+
+  if (ageFilter.value === "adult") {
+    result = result.filter((user) => user.dob.age >= 18);
+  }
+
+  switch (sortType.value) {
+    case "name-asc":
+      result.sort((a, b) => a.name.first.localeCompare(b.name.first));
+      break;
+
+    case "name-desc":
+      result.sort((a, b) => b.name.first.localeCompare(a.name.first));
+      break;
+
+    case "age-asc":
+      result.sort((a, b) => a.dob.age - b.dob.age);
+      break;
+
+    case "age-desc":
+      result.sort((a, b) => b.dob.age - a.dob.age);
+      break;
+
+    default:
+      break;
+  }
+
+  return result;
+});
+
+function getAgeClass(age: number): string {
   if (age < 18) {
     return "minor";
   }
@@ -60,285 +101,447 @@ const ageClass = computed(() => {
   }
 
   return "senior";
-});
+}
 
-function toggleDetails(): void {
-  showDetails.value = !showDetails.value;
+function toggleDetails(userId: number): void {
+  if (visibleDetails.value.includes(userId)) {
+    visibleDetails.value = visibleDetails.value.filter((id) => id !== userId);
+    return;
+  }
+
+  visibleDetails.value = [...visibleDetails.value, userId];
+}
+
+function isDetailsVisible(userId: number): boolean {
+  return visibleDetails.value.includes(userId);
+}
+
+function clearFilters(): void {
+  genderFilter.value = "all";
+  ageFilter.value = "all";
+  sortType.value = "default";
 }
 </script>
 
 <template>
-  <article class="user-card" :class="ageClass">
-    <section class="profile">
-      <img
-        class="profile__image"
-        :src="user.picture"
-        :alt="`${user.name.first} ${user.name.last}`"
-      />
+  <section class="users-page">
+    <header class="page-header">
+      <h1>Users</h1>
+      <p>{{ filteredUsers.length }} users shown</p>
+    </header>
 
-      <h1 class="profile__name">
-        {{ user.name.title }}
-        {{ user.name.first }}
-        {{ user.name.last }}
-      </h1>
+    <div class="toolbar">
+      <div class="control-group">
+        <span class="control-label">Gender</span>
 
-      <div class="profile__summary">
-        <span>{{ user.gender }}</span>
+        <div class="buttons">
+          <button
+            type="button"
+            :class="{ active: genderFilter === 'all' }"
+            @click="genderFilter = 'all'"
+          >
+            Всі
+          </button>
 
-        <span v-if="user.dob.age > 18"> {{ user.dob.age }} years </span>
+          <button
+            type="button"
+            :class="{ active: genderFilter === 'male' }"
+            @click="genderFilter = 'male'"
+          >
+            Чоловіки
+          </button>
+
+          <button
+            type="button"
+            :class="{ active: genderFilter === 'female' }"
+            @click="genderFilter = 'female'"
+          >
+            Жінки
+          </button>
+        </div>
       </div>
 
-      <p>
-        {{ user.location.city }}, {{ user.location.state }},
-        {{ user.location.country }}
-      </p>
+      <div class="control-group">
+        <span class="control-label">Age</span>
 
-      <p>{{ user.email }}</p>
-      <p>{{ user.phone }}</p>
-      <p>{{ user.cell }}</p>
-    </section>
+        <div class="buttons">
+          <button type="button" :class="{ active: ageFilter === 'all' }" @click="ageFilter = 'all'">
+            Всі
+          </button>
 
-    <section class="information">
-      <button class="details-toggle" type="button" @click="toggleDetails">
-        <span>About me</span>
-        <span>{{ showDetails ? "▲" : "▼" }}</span>
-      </button>
-
-      <div v-show="showDetails" class="details">
-        <p>{{ user.details }}</p>
+          <button
+            type="button"
+            :class="{ active: ageFilter === 'adult' }"
+            @click="ageFilter = 'adult'"
+          >
+            18+
+          </button>
+        </div>
       </div>
 
-      <section class="info-block">
-        <h2>Personal Information</h2>
+      <div class="control-group">
+        <span class="control-label">Sort</span>
 
-        <div class="info-row">
-          <span>Full name</span>
-          <strong>
+        <div class="buttons">
+          <button
+            type="button"
+            :class="{ active: sortType === 'name-asc' }"
+            @click="sortType = 'name-asc'"
+          >
+            Ім'я ↑
+          </button>
+
+          <button
+            type="button"
+            :class="{ active: sortType === 'name-desc' }"
+            @click="sortType = 'name-desc'"
+          >
+            Ім'я ↓
+          </button>
+
+          <button
+            type="button"
+            :class="{ active: sortType === 'age-asc' }"
+            @click="sortType = 'age-asc'"
+          >
+            Вік ↑
+          </button>
+
+          <button
+            type="button"
+            :class="{ active: sortType === 'age-desc' }"
+            @click="sortType = 'age-desc'"
+          >
+            Вік ↓
+          </button>
+        </div>
+      </div>
+
+      <button type="button" class="clear-button" @click="clearFilters">Очистити все</button>
+    </div>
+
+    <p v-if="filteredUsers.length === 0" class="empty-message">Список юзерів пустий.</p>
+
+    <div v-else class="users-grid">
+      <article
+        v-for="user in filteredUsers"
+        :key="user.id"
+        class="user-card"
+        :class="getAgeClass(user.dob.age)"
+      >
+        <div class="profile">
+          <img
+            class="profile__image"
+            :src="user.picture"
+            :alt="`${user.name.first} ${user.name.last}`"
+          />
+
+          <h2>
             {{ user.name.title }}
             {{ user.name.first }}
             {{ user.name.last }}
-          </strong>
+          </h2>
+
+          <div class="profile__meta">
+            <span>{{ user.gender }}</span>
+
+            <span v-if="user.dob.age > 18"> {{ user.dob.age }} years </span>
+          </div>
+
+          <p>
+            {{ user.location.city }},
+            {{ user.location.country }}
+          </p>
+
+          <p>{{ user.email }}</p>
+          <p>{{ user.phone }}</p>
         </div>
 
-        <div class="info-row">
-          <span>Gender</span>
-          <strong>{{ user.gender }}</strong>
+        <div class="information">
+          <button type="button" class="details-toggle" @click="toggleDetails(user.id)">
+            <span>About me</span>
+
+            <span>
+              {{ isDetailsVisible(user.id) ? "▲" : "▼" }}
+            </span>
+          </button>
+
+          <div v-show="isDetailsVisible(user.id)" class="details">
+            {{ user.details }}
+          </div>
+
+          <section class="info-block">
+            <h3>Personal Information</h3>
+
+            <div class="info-row">
+              <span>Gender</span>
+              <strong>{{ user.gender }}</strong>
+            </div>
+
+            <div class="info-row">
+              <span>Email</span>
+              <strong>{{ user.email }}</strong>
+            </div>
+
+            <div class="info-row">
+              <span>Phone</span>
+              <strong>{{ user.phone }}</strong>
+            </div>
+
+            <div class="info-row">
+              <span>Cell</span>
+              <strong>{{ user.cell }}</strong>
+            </div>
+          </section>
+
+          <section class="info-block">
+            <h3>Location</h3>
+
+            <div class="info-row">
+              <span>City</span>
+              <strong>{{ user.location.city }}</strong>
+            </div>
+
+            <div class="info-row">
+              <span>State</span>
+              <strong>{{ user.location.state }}</strong>
+            </div>
+
+            <div class="info-row">
+              <span>Country</span>
+              <strong>{{ user.location.country }}</strong>
+            </div>
+          </section>
+
+          <section class="info-block">
+            <h3>Hobbies</h3>
+
+            <div class="hobbies">
+              <span v-for="hobby in user.hobbies" :key="hobby" class="hobby">
+                {{ hobby }}
+              </span>
+            </div>
+          </section>
         </div>
-
-        <div class="info-row">
-          <span>Date of birth</span>
-          <strong>
-            {{ new Date(user.dob.date).toLocaleDateString() }}
-          </strong>
-        </div>
-
-        <div class="info-row">
-          <span>Email</span>
-          <strong>{{ user.email }}</strong>
-        </div>
-
-        <div class="info-row">
-          <span>Phone</span>
-          <strong>{{ user.phone }}</strong>
-        </div>
-
-        <div class="info-row">
-          <span>Cell</span>
-          <strong>{{ user.cell }}</strong>
-        </div>
-      </section>
-
-      <section class="info-block">
-        <h2>Location</h2>
-
-        <div class="info-row">
-          <span>Street</span>
-          <strong>
-            {{ user.location.street.number }}
-            {{ user.location.street.name }}
-          </strong>
-        </div>
-
-        <div class="info-row">
-          <span>City</span>
-          <strong>{{ user.location.city }}</strong>
-        </div>
-
-        <div class="info-row">
-          <span>State</span>
-          <strong>{{ user.location.state }}</strong>
-        </div>
-
-        <div class="info-row">
-          <span>Country</span>
-          <strong>{{ user.location.country }}</strong>
-        </div>
-
-        <div class="info-row">
-          <span>Postcode</span>
-          <strong>{{ user.location.postcode }}</strong>
-        </div>
-
-        <div class="info-row">
-          <span>Timezone</span>
-          <strong>
-            {{ user.location.timezone.offset }}
-            ({{ user.location.timezone.description }})
-          </strong>
-        </div>
-      </section>
-
-      <section class="info-block">
-        <h2>Hobbies</h2>
-
-        <div class="hobbies">
-          <span v-for="hobby in user.hobbies" :key="hobby" class="hobby">
-            {{ hobby }}
-          </span>
-        </div>
-      </section>
-    </section>
-  </article>
+      </article>
+    </div>
+  </section>
 </template>
 
 <style scoped>
-.user-card {
-  display: grid;
-  grid-template-columns: 340px 1fr;
-  width: min(100%, 980px);
+.users-page {
+  width: min(100%, 1200px);
   margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  margin: 0;
+  color: #172548;
+  font-size: 36px;
+}
+
+.page-header p {
+  margin: 6px 0 0;
+  color: #697795;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 18px;
+  margin-bottom: 28px;
+  padding: 20px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgb(25 44 85 / 8%);
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-label {
+  color: #697795;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.buttons button,
+.clear-button {
+  padding: 8px 13px;
+  border: 1px solid #d8e1ef;
+  border-radius: 9px;
+  background: #ffffff;
+  color: #344564;
+  transition: 0.15s ease;
+}
+
+.buttons button:hover,
+.buttons button.active {
+  border-color: #4e7fd3;
+  background: #edf4ff;
+  color: #2865bd;
+}
+
+.clear-button {
+  margin-left: auto;
+}
+
+.clear-button:hover {
+  border-color: #cf6262;
+  background: #fff0f0;
+  color: #b73c3c;
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.user-card {
   overflow: hidden;
   border: 2px solid transparent;
-  border-radius: 18px;
+  border-radius: 17px;
   background: #ffffff;
-  box-shadow: 0 12px 35px rgb(25 44 85 / 10%);
+  box-shadow: 0 10px 28px rgb(25 44 85 / 9%);
 }
 
 .user-card.minor {
-  border-color: #f0b2b2;
+  border-color: #efb1b1;
 }
 
 .user-card.young {
-  border-color: #b8cff7;
+  border-color: #b3cef7;
 }
 
 .user-card.adult {
-  border-color: #a7d9bd;
+  border-color: #a9d9bc;
 }
 
 .user-card.senior {
-  border-color: #d7c2ef;
+  border-color: #d2bdea;
 }
 
 .profile {
-  padding: 28px;
-  border-right: 1px solid #e5eaf2;
+  padding: 22px;
 }
 
 .profile__image {
   width: 100%;
-  aspect-ratio: 1 / 0.86;
-  border-radius: 14px;
+  aspect-ratio: 4 / 3;
+  border-radius: 13px;
   object-fit: cover;
+  object-position: center;
 }
 
-.profile__name {
-  margin: 20px 0 12px;
+.profile h2 {
+  margin: 16px 0 8px;
   color: #172548;
-  font-size: 30px;
 }
 
-.profile__summary {
+.profile__meta {
   display: flex;
-  gap: 24px;
-  margin-bottom: 22px;
-  color: #546585;
+  gap: 18px;
+  margin-bottom: 16px;
+  color: #63718d;
 }
 
 .profile p {
-  margin: 13px 0;
-  color: #52617d;
+  margin: 7px 0;
+  overflow-wrap: anywhere;
+  color: #586783;
 }
 
 .information {
-  padding: 28px;
+  padding: 0 22px 22px;
 }
 
 .details-toggle {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  padding: 15px 18px;
+  padding: 13px 15px;
   border: 0;
-  border-radius: 12px;
-  background: #f2f6fc;
+  border-radius: 10px;
+  background: #f1f5fb;
   color: #172548;
   font-weight: 700;
 }
 
 .details {
-  margin-top: 12px;
-  padding: 14px 18px;
+  margin-top: 10px;
+  padding: 13px 15px;
   border-radius: 10px;
   background: #f8faff;
-  color: #52617d;
+  color: #596985;
 }
 
 .info-block {
-  padding: 22px 4px;
-  border-bottom: 1px solid #e5eaf2;
+  padding-top: 18px;
 }
 
-.info-block:last-child {
-  border-bottom: 0;
-}
-
-.info-block h2 {
-  margin: 0 0 18px;
+.info-block h3 {
+  margin: 0 0 12px;
   color: #172548;
-  font-size: 18px;
 }
 
 .info-row {
   display: grid;
-  grid-template-columns: 160px 1fr;
-  gap: 16px;
-  margin: 10px 0;
-  color: #5a6988;
+  grid-template-columns: 100px 1fr;
+  gap: 12px;
+  margin: 7px 0;
+  color: #65738f;
 }
 
 .info-row strong {
-  color: #273756;
+  overflow-wrap: anywhere;
+  color: #34435f;
   font-weight: 500;
 }
 
 .hobbies {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 7px;
 }
 
 .hobby {
-  padding: 7px 13px;
+  padding: 6px 11px;
   border-radius: 999px;
   background: #edf4ff;
-  color: #3568b8;
-  font-size: 14px;
+  color: #3268ba;
+  font-size: 13px;
 }
 
-@media (max-width: 760px) {
-  .user-card {
+.empty-message {
+  padding: 40px;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #697795;
+  text-align: center;
+}
+
+@media (max-width: 850px) {
+  .users-grid {
     grid-template-columns: 1fr;
   }
 
-  .profile {
-    border-right: 0;
-    border-bottom: 1px solid #e5eaf2;
-  }
-
-  .info-row {
-    grid-template-columns: 1fr;
-    gap: 4px;
+  .clear-button {
+    margin-left: 0;
   }
 }
 </style>
